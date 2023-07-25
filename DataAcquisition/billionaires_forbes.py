@@ -39,7 +39,7 @@ def add_continent(category_list,USA_GDP):
                     continue
                     
                 r = requests.get(url+el['city']+"&country=")
-                soup = BeautifulSoup(r.content)
+                soup = BeautifulSoup(r.content,features="lxml")
                 row = soup.find_all('td')
 
                 if len(row)>=6:

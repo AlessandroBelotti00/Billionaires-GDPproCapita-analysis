@@ -8,24 +8,27 @@ def american_GDP_def():
 
     # source -> https://www.census.gov/en.html
     USA_POP = pd.read_csv("./original_data/population_us.csv")
+    print(USA_POP.shape[0])
     
     # From GDP to GDP per capita by dividing each value with the population of the year 2022.
     for j in USA_GDP[['2014','2015','2016','2017','2018','2019','2020','2021']]:
         list=[]
         cont = 0
-        for i in USA_GDP[j]:
-            pop = USA_POP['2022_population']
+        for i in USA_GDP[j][:52]:
+            pop = USA_POP.iloc[cont]['2022_population']
             pop = pop.strip()        
             pop = pop.replace(",","")
             pop = pop.rstrip('.00')
             gdp_proCapite = round(float(i) / float(pop) * 1000000.0, 2)
-            print(f"{USA_GDP.iloc[i]['GeoName']} -> GDP: {gdp_proCapite} -> {float(i)}-->{j}>>>population:{float(pop)}")
+
+            #print(f"{USA_POP.iloc[cont]['Country']} -> GDP: {gdp_proCapite} -> {float(i)}-->{j}>>>population:{float(pop)}")
+
             list.append(gdp_proCapite)
             cont += 1
-            if cont > USA_POP.shape[0]:
+            if cont >= USA_POP.shape[0]:
 
                 break
-        USA_GDP[j]=list
+        USA_GDP[j][:52]=list
 
     print(f"USA_GDP\n{USA_GDP.head(7)}\n")
 
